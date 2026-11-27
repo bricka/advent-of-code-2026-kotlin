@@ -6,12 +6,11 @@ import java.io.File
 object Runner {
     @JvmStatic
     fun main(args: Array<String>) {
-        val (dayString, part, inputPathString) = args
-        val day = dayString.toInt()
+        val (day, part, inputPathString) = args
 
         val input = File(inputPathString).readText()
 
-        val solution = checkNotNull(solutions.find { it.day == day }) { "No solution for day $day" }
+        val solution = findSolutionForDay(day.toInt())
         val output =
             when (part) {
                 "1" -> solution.part1(input)
@@ -20,6 +19,16 @@ object Runner {
             }
 
         println(output)
+    }
+
+    private fun findSolutionForDay(day: Int): Solution {
+        val solutionsForDay = solutions.filter { it.day == day }
+        require(solutionsForDay.size <= 1) {
+            "More than one solution for day $day"
+        }
+        return requireNotNull(solutions.singleOrNull()) {
+            "No solution for day $day"
+        }
     }
 
     private val solutions: Set<Solution> = setOf()
