@@ -37,7 +37,12 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = "org.example.AppKt"
+    mainClass = "com.github.bricka.adventofcode.Runner"
+}
+
+tasks.named<JavaExec>("run") {
+    // Resolve relative paths in program arguments against the directory Gradle was invoked from.
+    workingDir = gradle.startParameter.currentDir
 }
 
 tasks.named<Test>("test") {
